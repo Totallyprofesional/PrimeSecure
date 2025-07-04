@@ -18,7 +18,7 @@ public class Mensaje extends Thread{
         this.mensaje = mensaje;
         this.primo = primo;
     }
-
+ 
     @Override
     public void run() {
         System.out.println("Mensaje: " + mensaje);

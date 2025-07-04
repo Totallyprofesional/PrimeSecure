@@ -4,15 +4,18 @@
  */
 package primesecure;
 
+import primesecure.managers.PrimeManager;
+
 /**
  *
  * @author Home
  */
 public class PrimeSecure {
 
-    public static void main(String[] args) {
+    public static void main(String[] args, PrimeManager primeManager) {
         Menu menu = new Menu();
-        menu.mostrarMenu();
+        menu.mostrarMenu(primeManager);
         }
     
 }
+ 

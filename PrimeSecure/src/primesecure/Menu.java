@@ -17,7 +17,7 @@ public class Menu {
     private Scanner sc = new Scanner(System.in);
     private PrimeManager manager = new PrimeManager();  
 
-    public void mostrarMenu() {
+    public void mostrarMenu(PrimeManager primeManager) {
         int option = 0;
  
         do {
@@ -27,12 +27,12 @@ public class Menu {
             System.out.println("3. Mostrar total de códigos primos");
             System.out.println("4. Salir");
             System.out.print("Seleccione una opción: ");
-            
+             
             option = sc.nextInt(); 
 
             switch (option) {
                 case 1:
-                    Mensajería(sc);
+                    Mensajería(sc, primeManager);
                     break;
                 case 2: 
                     AgregarCodigos(sc);
@@ -48,16 +48,17 @@ public class Menu {
             }
 
         } while (option != 4);
-    }
+    } 
 
-    public void Mensajería(Scanner sc) {
+    public void Mensajería(Scanner sc, PrimeManager primeManager) {
         System.out.print("Ingrese texto del mensaje: ");
-        String mensaje = sc.nextLine();
+        String mensaje = sc.nextLine(); 
         System.out.print("Ingrese código primo asociado: ");
         int primo = sc.nextInt();
 
         try { 
-            MensajeManager.Enviar(mensaje, primo);
+            MensajeManager manager = new MensajeManager(primeManager);
+            manager.Enviar(mensaje, primo);
             System.out.println("Mensaje enviado.");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
