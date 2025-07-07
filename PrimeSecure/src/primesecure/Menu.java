@@ -4,80 +4,138 @@
  */
 package primesecure;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
-import primesecure.managers.MensajeManager;
-import primesecure.managers.PrimeManager;
 import primesecure.models.Mensaje;
+import primesecure.models.PrimeList;
 
 /**
  *
  * @author Home
- */ 
+ */   
 public class Menu {
     private Scanner sc = new Scanner(System.in);
-    private PrimeManager manager = new PrimeManager();  
+    private PrimeList primeList;
+    private Mensaje mensaje;
+    private int primo;
+    private String texto;
 
-    public void mostrarMenu(PrimeManager primeManager) {
+    public Menu(PrimeList primeList, Mensaje mensaje, int primo, String texto) {
+        this.primeList = primeList;
+        this.mensaje = mensaje;
+        this.primo = primo;
+        this.texto = texto;
+    }
+    
+    public void mostrarMenu() {
         int option = 0;
  
-        do {
+        do { 
             System.out.println("\n Bienvenido al Menu PrimeSecure");
             System.out.println("1. Mensajería");
             System.out.println("2. Agregar codigos");
-            System.out.println("3. Mostrar total de códigos primos");
-            System.out.println("4. Salir");
+            System.out.println("3. Buscar codigos");
+            System.out.println("4. Eliminar codigos");
+            System.out.println("5. Mostrar total de códigos primos");
+            System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
              
             option = sc.nextInt(); 
-
+ 
             switch (option) {
                 case 1:
-                    Mensajería(sc, primeManager);
+                    Mensajería(sc);
                     break;
                 case 2: 
-                    AgregarCodigos(sc);
+                    AgregarCodigos(sc); 
+                    break; 
+                case 3: 
+                    BuscarCodigos(sc);
                     break;
-                case 3:
+                case 4: 
+                    EliminarCodigos(sc);
+                    break;
+                case 5:
                     TotalCodigos(); 
                     break;
-                case 4:
+                case 6:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
                     System.out.println("Por favor ingrese una opción valida");
-            }
+            } 
 
-        } while (option != 4);
-    } 
+        } while (option != 6); 
+    }  
 
-    public void Mensajería(Scanner sc, PrimeManager primeManager) {
+    public void Mensajería(Scanner sc) {
         System.out.print("Ingrese texto del mensaje: ");
-        String mensaje = sc.nextLine(); 
+        texto = sc.nextLine(); 
         System.out.print("Ingrese código primo asociado: ");
-        int primo = sc.nextInt();
-
-        try { 
-            MensajeManager manager = new MensajeManager(primeManager);
-            manager.Enviar(mensaje, primo);
-            System.out.println("Mensaje enviado.");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    public void AgregarCodigos(Scanner sc) {
-        System.out.print("Ingrese código primo: ");
-        int primo = sc.nextInt();
+        
         try {
-            manager.addCodigo(primo);
-            System.out.println("Código agregado");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            primo = sc.nextInt();
+            sc.nextLine(); 
+        } catch (InputMismatchException e) {
+            System.out.println("Error. Ingrese un numero valido");
+        }
+        
+        if (primeList.isPrime(primo)){
+            mensaje.run();
+            System.out.println("Mensaje enviado");
+        } else {
+            System.out.println("Codigo invalido");
         }        
+    } 
+    
+    public void AgregarCodigos(Scanner sc) {   
+        try {
+            primo = sc.nextInt();
+            sc.nextLine(); 
+        
+            if (primeList.add(primo)){
+                System.out.println("Codigo agregado");
+            } else {
+                System.out.println("Codigo invalido");
+            }   
+        
+        } catch (InputMismatchException e) {
+            System.out.println("Error. Ingrese un numero valido");
+        }   
     }
-
+             
+    public void BuscarCodigos(Scanner sc) {
+        System.out.print("Ingrese código primo: ");
+        
+        try {
+            primo = sc.nextInt(); 
+            sc.nextLine(); 
+       
+         
+            if (primeList.contains(primo)) {
+                System.out.println("Codigo encontrado");
+            } else {
+                System.out.println("Codigo no encontrado.");
+            }
+        
+        } catch (InputMismatchException e) {
+            System.out.println("Error. Ingrese un numero valido");
+        }   
+    }
+     
+    public void EliminarCodigos(Scanner sc) {
+        try {
+            primo = sc.nextInt(); 
+            sc.nextLine(); 
+        } catch (InputMismatchException e) {
+            System.out.println("Error. Ingrese un numero valido");
+        }   
+        
+        primeList.remove(primo);         
+    }
+      
     public void TotalCodigos() {
-        System.out.println("Total códigos : " + manager.getPrimeList() );
+        primeList.getPrimesCount();
     }
     
 }

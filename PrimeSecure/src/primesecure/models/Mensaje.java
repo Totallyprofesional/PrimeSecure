@@ -4,24 +4,22 @@
  */
 package primesecure.models;
 
-import primesecure.managers.PrimeManager;
-
 /**
  *
  * @author Home
  */
 public class Mensaje extends Thread{
-    private String mensaje; 
+    private String texto; 
     private int primo;    
 
-    public Mensaje(String mensaje, int primo) {
-        this.mensaje = mensaje;
+    public Mensaje(String texto, int primo) {
+        this.texto = texto;
         this.primo = primo;
     }
  
     @Override
     public void run() {
-        System.out.println("Mensaje: " + mensaje);
+        System.out.println("Mensaje: " + texto);
         System.out.println("Verificar codigo: " + primo);
         
         try {
@@ -29,7 +27,7 @@ public class Mensaje extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(mensaje);
+        System.out.println(texto);
     }
     
 }

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package primesecure.models;
-import java.util.ArrayList;
+import java.util.ArrayList;  
 
 /**
  *
@@ -11,45 +11,41 @@ import java.util.ArrayList;
  */
 public class PrimeList extends ArrayList<Integer> {
     
-    public boolean Verificar(int n) {
-        if (n <= 1) return false; 
-        if (n <= 3) return true;
+    public boolean isPrime(int n) {  
+        try {  
+            if (n%2 == 0 || n%3 == 0) return false;
          
-        // Revisar formula de porcentaje
-        if (n % 2 == 0 || n % 3 == 0) return false;
-          
-        try {
-            // Comprobar funcion
-            for (int i = 5; i * i <= n; i += 6) {
-                if (n % i == 0 || n % (i + 2) == 0) return false;
-            }
+            // Desde 25
+            for (int i = 5; i * i <= n; i += 6)
+            if (n % i == 0 || n % (i + 2) == 0) return false;
+                     
         } catch (Exception e) {
             System.out.println("Error de verificacion: " + e.getMessage());
             return false;
         }
+        
         return true;
     }
-    
-    @Override
-    public boolean add(Integer n) {
-        if (!Verificar(n)) {
+        
+    @Override 
+    public boolean add(Integer n) { 
+        if (!isPrime(n)) {
             throw new IllegalArgumentException("Numero ingresado debe ser primo");
         }
-        return super.add(n);
+        return super.add(n); 
     }
     
     @Override
-    public boolean remove(Object o) {
-        if (o instanceof Integer && !Verificar((Integer) o)) {
+    public boolean remove(Object n) {
+        if (n instanceof Integer && !isPrime((Integer) n)) {
             throw new IllegalArgumentException("Numero ingresado debe ser primo");
         }
-        return super.remove(o);
+        return super.remove(n);
     }
     
-    // Comprobar origen de size
-    public int getConteoPrimos() {
+    public int getPrimesCount() {
         return this.size();
     }
-
     
 }
+

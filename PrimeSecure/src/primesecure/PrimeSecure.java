@@ -4,18 +4,23 @@
  */
 package primesecure;
 
-import primesecure.managers.PrimeManager;
+import primesecure.models.Mensaje;
+import primesecure.models.PrimeList;
 
 /**
  *
  * @author Home
- */
+ */ 
 public class PrimeSecure {
-
-    public static void main(String[] args, PrimeManager primeManager) {
-        Menu menu = new Menu();
-        menu.mostrarMenu(primeManager);
+    public static PrimeList primeList;
+    public static Mensaje mensaje;
+    public static int primo;
+    public static String texto;
+    
+    public static void main(String[] args) {
+        Menu menu = new Menu(primeList, mensaje, primo, texto);
+        menu.mostrarMenu();
         }
     
-}
+} 
  
